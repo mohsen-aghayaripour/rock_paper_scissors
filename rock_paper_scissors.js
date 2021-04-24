@@ -4,42 +4,70 @@ function computerPlay(items){
      
 }
 
-function game(){
-    let counterPlayer = 0
-    let countercomputer = 0
+let counterPlayer = 0;
+let countercomputer = 0;
+const container = document.querySelector("#container");
+container.style.textAlign = 'center';
+const buttons = document.querySelectorAll('button');
+let display = document.getElementById('display');
+display.style.textAlign = 'center';
+display.style.color= 'blue';
+let points = document.querySelector('.points');
+points.style.textAlign= 'center';
+let finalResult = document.querySelector('.finaly');
+finalResult.style.textAlign = 'center';
+
+let playerSelection = "hi";
+
+function playRound(){
+
     function playGame(playerSelection, computerSelection){
-        playerSelection = playerSelection.toLowerCase();
+        finalResult.textContent = '';
+        display.textContent = '';
+        if (counterPlayer < 5 && countercomputer < 5){
+            if (playerSelection === "Rock" && computerSelection === "Scissors" || playerSelection === "Paper" && computerSelection === "Rock" || playerSelection === "Scissors" && computerSelection === "Paper"){
+                counterPlayer += 1;
+                return display.textContent = 'You Win!', points.textContent = 'You have: ' + counterPlayer + " and cump. have: " + countercomputer + " points.";
+            }
+        
+            else if (playerSelection == computerSelection){
+                return display.textContent = `It's tie!` , points.textContent = 'You have: ' + counterPlayer + " and cump. have: " + countercomputer + " points.";
+            }
+            else {
+                
+                countercomputer += 1;
+                return display.textContent = 'You Lose!' , points.textContent = 'You have: ' + counterPlayer + " and cump. have: " + countercomputer + " points.";
     
-        if (playerSelection === "rock" && computerSelection === "scissors" || playerSelection === "paper" && computerSelection === "rock" || playerSelection === "scissors" && computerSelection === "paper"){
-            counterPlayer += 1;
-            return "You Win! " + capitalizeFirst(playerSelection) + " beats " + capitalizeFirst(computerSelection) + ", You have: " + counterPlayer + " and coumputer have: " + countercomputer + " points";
+            };
         }
-    
-        else if (playerSelection == computerSelection){
-            return "it is tie! You chose " + capitalizeFirst(playerSelection) + " and com. chose " + capitalizeFirst(computerSelection) + ", You have: " + counterPlayer + " and coumputer have: " + countercomputer + " points";
+        else{
+            if (counterPlayer > countercomputer){
+                countercomputer = 0;
+                counterPlayer = 0;
+                finalResult.style.color = 'green';
+                return finalResult.textContent = "!!***** You Won *****!!";
+            }
+            else{
+                countercomputer = 0;
+                counterPlayer = 0;
+                finalResult.style.color = 'red';
+                return finalResult.textContent = "!!:( You lose :(!!"
+            }
         }
-        else {
-            countercomputer += 1;
-            return "You Lose! " + capitalizeFirst(computerSelection) + " beats " + capitalizeFirst(playerSelection) + ", You have: " + counterPlayer + " and coumputer have: " + countercomputer + " points";
-        }
+
     }
-    for (let i = 0; i < 100; i++){
-    
-        if (countercomputer == 5){
-            return "You Lose! computer : " + countercomputer + " and you: " + counterPlayer;
-        }
-        else if (counterPlayer == 5){
-            return "You Won! you: " + counterPlayer + " and computer: " + countercomputer;
-        }
-        let playerInput = prompt("inter your choice :", "rock");
-        console.log(playGame(playerInput, computerPlay(gamer)));
-    }
-}
-function capitalizeFirst(word){
-    word = word.toLowerCase()
-    return word.replace(word.charAt(0), word.charAt(0).toUpperCase())
-}
-let gamer = ["rock", "paper", "scissors"];
+    let gamer = ["Rock", "Paper", "Scissors"];
+    console.log(playGame(playerSelection, computerPlay(gamer)));
+};
+
+buttons.forEach((button) => {
+// and for each one we add a 'click' listener
+button.addEventListener('click', () => {
+    playerSelection = button.id;
+    console.log(playRound());
+
+    });
+});
 
 
-console.log(game());
+
